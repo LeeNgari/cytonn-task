@@ -55,11 +55,11 @@ Follow these steps to set up and run the project locally:
     LOG_LEVEL=debug
 
     DB_CONNECTION=pgsql
-    DB_HOST=aws-0-ap-south-1.pooler.supabase.com
-    DB_PORT=6543
-    DB_DATABASE=postgres
-    DB_USERNAME=postgres.hiyjbspvwdqmpjpjgvfr
-    DB_PASSWORD=CQgGjz3wV3AmuFTS
+    DB_HOST=
+    DB_PORT=
+    DB_DATABASE=
+    DB_USERNAME=
+    DB_PASSWORD=
 
     BROADCAST_DRIVER=log
     CACHE_DRIVER=file
@@ -77,10 +77,10 @@ Follow these steps to set up and run the project locally:
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.gmail.com
     MAIL_PORT=587
-    MAIL_USERNAME=leengari76@gmail.com
-    MAIL_PASSWORD=bmhmfgglnrjzvkqo
+    MAIL_USERNAME=
+    MAIL_PASSWORD=
     MAIL_ENCRYPTION=tls
-    MAIL_FROM_ADDRESS=leengari76@gmail.com
+    MAIL_FROM_ADDRESS=
     MAIL_FROM_NAME="${APP_NAME}"
 
     AWS_ACCESS_KEY_ID=
