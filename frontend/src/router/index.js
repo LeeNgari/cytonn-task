@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login.vue';
-import UserDashboard from '../views/UserDashboard.vue';
-import AdminDashboard from '../views/AdminDashboard.vue';
+import Login from '../views/auth/Login.vue';
+import UserDashboard from '../views/user/UserDashboard.vue';
+import AdminDashboard from '../views/admin/AdminDashboard.vue';
 import { useAuthStore } from '../stores/auth';
 
 const routes = [
