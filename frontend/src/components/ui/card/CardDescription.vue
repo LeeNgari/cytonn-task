@@ -1,12 +1,16 @@
 <script setup>
 import { cn } from "@/lib/utils";
-import { useAttrs } from "vue";
 
-const attrs = useAttrs();
+const props = defineProps({
+  class: { type: null, required: false },
+});
 </script>
 
 <template>
-  <p :class="cn('text-sm text-muted-foreground', attrs.class ?? '')">
+  <p
+    data-slot="card-description"
+    :class="cn('text-muted-foreground text-sm', props.class)"
+  >
     <slot />
   </p>
 </template>

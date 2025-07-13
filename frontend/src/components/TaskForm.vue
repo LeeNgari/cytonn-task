@@ -97,14 +97,35 @@ const fetchUsers = async () => {
   }
 };
 
+// Helper function to format date for datetime-local input
+const formatDateForInput = (dateString) => {
+  if (!dateString) return '';
+  
+  try {
+    const date = new Date(dateString);
+    // Check if date is valid
+    if (isNaN(date.getTime())) return '';
+    
+    // Format to YYYY-MM-DDTHH:MM (required for datetime-local)
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  } catch (error) {
+    console.error('Date formatting error:', error);
+    return '';
+  }
+};
+
 watch(() => props.task, (newTask) => {
   if (newTask) {
     isEdit.value = true;
     taskForm.value = { ...newTask };
     // Format deadline for datetime-local input
-    if (taskForm.value.deadline) {
-      taskForm.value.deadline = new Date(newTask.deadline).toISOString().slice(0, 16);
-    }
+    taskForm.value.deadline = formatDateForInput(newTask.deadline);
   } else {
     isEdit.value = false;
     taskForm.value = {
@@ -119,16 +140,38 @@ watch(() => props.task, (newTask) => {
 
 const handleSubmit = async () => {
   error.value = null;
+  
+  // Debug logging
+  console.log('Form data before submit:', taskForm.value);
+  console.log('Deadline value:', taskForm.value.deadline);
+  
+  // Validate deadline
+  if (!taskForm.value.deadline || taskForm.value.deadline.trim() === '') {
+    error.value = 'Please select a deadline.';
+    return;
+  }
+  
   try {
+    // Create a copy of the form data for submission
+    const submitData = { ...taskForm.value };
+    
+    // Convert datetime-local format to ISO string for API
+    if (submitData.deadline) {
+      submitData.deadline = new Date(submitData.deadline).toISOString();
+    }
+    
+    console.log('Submitting data:', submitData);
+    
     if (isEdit.value) {
-      const response = await axios.put(`${API_BASE_URL}/tasks/${taskForm.value.id}`, taskForm.value);
+      const response = await axios.put(`${API_BASE_URL}/tasks/${submitData.id}`, submitData);
       emit('taskUpdated', response.data);
     } else {
-      const response = await axios.post(`${API_BASE_URL}/tasks`, taskForm.value);
+      const response = await axios.post(`${API_BASE_URL}/tasks`, submitData);
       emit('taskCreated', response.data);
     }
     emit('close');
   } catch (err) {
+    console.error('Submit error:', err);
     error.value = err.response?.data?.message || 'An error occurred.';
     if (err.response?.data?.errors) {
       for (const key in err.response.data.errors) {
