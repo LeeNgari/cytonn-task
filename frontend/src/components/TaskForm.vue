@@ -58,7 +58,10 @@
       <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
       <div class="flex justify-end space-x-2">
         <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-        <Button type="submit">{{ isEdit ? 'Update Task' : 'Create Task' }}</Button>
+        <Button type="submit" :disabled="isLoading">
+          <span v-if="isLoading">Saving...</span>
+          <span v-else>{{ isEdit ? 'Update Task' : 'Create Task' }}</span>
+        </Button>
       </div>
     </form>
   </div>
@@ -77,6 +80,7 @@ const props = defineProps({
 const emit = defineEmits(['taskCreated', 'taskUpdated', 'close']);
 
 const isEdit = ref(false);
+const isLoading = ref(false);
 const taskForm = ref({
   title: '',
   description: '',
@@ -140,6 +144,7 @@ watch(() => props.task, (newTask) => {
 
 const handleSubmit = async () => {
   error.value = null;
+  isLoading.value = true;
   
   // Debug logging
   console.log('Form data before submit:', taskForm.value);
@@ -148,6 +153,7 @@ const handleSubmit = async () => {
   // Validate deadline
   if (!taskForm.value.deadline || taskForm.value.deadline.trim() === '') {
     error.value = 'Please select a deadline.';
+    isLoading.value = false;
     return;
   }
   
@@ -178,6 +184,8 @@ const handleSubmit = async () => {
         error.value += ` ${key}: ${err.response.data.errors[key].join(', ')}`;
       }
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 

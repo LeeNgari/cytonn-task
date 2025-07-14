@@ -413,6 +413,17 @@ Returned if a non-admin user tries to access another user's details.
 
 Returns the updated user object.
 
+```json
+{
+    "id": 2,
+    "name": "Test User",
+    "email": "user@example.com",
+    "role": "user",
+    "created_at": "2025-07-13T12:00:00.000000Z",
+    "updated_at": "2025-07-13T12:00:00.000000Z"
+}
+```
+
 ---
 
 #### 5. Delete User
@@ -497,6 +508,27 @@ Returns an array of task objects, including the assigned user details.
 **Success Response (201 Created):**
 
 Returns the newly created task object.
+```json
+    {
+        "id": 1,
+        "title": "Design new dashboard",
+        "description": "A detailed description of the task.",
+        "assigned_to": 2,
+        "deadline": "2025-08-01",
+        "status": "pending",
+        "created_at": "2025-07-13T12:00:00.000000Z",
+        "updated_at": "2025-07-13T12:00:00.000000Z",
+        "assigned_user": {
+            "id": 2,
+            "name": "Test User",
+            "email": "user@example.com",
+            "email_verified_at": null,
+            "role": "user",
+            "created_at": "2025-07-13T12:00:00.000000Z",
+            "updated_at": "2025-07-13T12:00:00.000000Z"
+        }
+    }
+```
 
 ---
 
@@ -514,6 +546,27 @@ Returns the newly created task object.
 **Success Response (200 OK):**
 
 Returns the task object.
+```json
+    {
+        "id": 1,
+        "title": "Design new dashboard",
+        "description": "A detailed description of the task.",
+        "assigned_to": 2,
+        "deadline": "2025-08-01",
+        "status": "pending",
+        "created_at": "2025-07-13T12:00:00.000000Z",
+        "updated_at": "2025-07-13T12:00:00.000000Z",
+        "assigned_user": {
+            "id": 2,
+            "name": "Test User",
+            "email": "user@example.com",
+            "email_verified_at": null,
+            "role": "user",
+            "created_at": "2025-07-13T12:00:00.000000Z",
+            "updated_at": "2025-07-13T12:00:00.000000Z"
+        }
+    }
+```
 
 **Error Response (403 Forbidden):**
 
@@ -554,6 +607,27 @@ Returned if a user tries to access a task not assigned to them.
 **Success Response (200 OK):**
 
 Returns the updated task object.
+```json
+    {
+        "id": 1,
+        "title": "Design new dashboard",
+        "description": "A detailed description of the task.",
+        "assigned_to": 2,
+        "deadline": "2025-08-01",
+        "status": "pending",
+        "created_at": "2025-07-13T12:00:00.000000Z",
+        "updated_at": "2025-07-13T12:00:00.000000Z",
+        "assigned_user": {
+            "id": 2,
+            "name": "Test User",
+            "email": "user@example.com",
+            "email_verified_at": null,
+            "role": "user",
+            "created_at": "2025-07-13T12:00:00.000000Z",
+            "updated_at": "2025-07-13T12:00:00.000000Z"
+        }
+    }
+```
 
 ---
 
@@ -583,6 +657,27 @@ Returns the updated task object.
 **Success Response (200 OK):**
 
 Returns the updated task object.
+```json
+    {
+        "id": 1,
+        "title": "Design new dashboard",
+        "description": "A detailed description of the task.",
+        "assigned_to": 2,
+        "deadline": "2025-08-01",
+        "status": "pending",
+        "created_at": "2025-07-13T12:00:00.000000Z",
+        "updated_at": "2025-07-13T12:00:00.000000Z",
+        "assigned_user": {
+            "id": 2,
+            "name": "Test User",
+            "email": "user@example.com",
+            "email_verified_at": null,
+            "role": "user",
+            "created_at": "2025-07-13T12:00:00.000000Z",
+            "updated_at": "2025-07-13T12:00:00.000000Z"
+        }
+    }
+```
 
 **Error Response (403 Forbidden):**
 

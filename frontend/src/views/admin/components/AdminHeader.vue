@@ -1,20 +1,34 @@
 <template>
-  <Card class="mb-6 border-b shadow-sm ">
-    <CardHeader class="flex flex-row items-center justify-between">
+  <header class="w-full bg-white border-b shadow-sm fixed top-0 left-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      
+      <!-- Left: Logo + Title -->
       <div class="flex items-center gap-3">
-        <ClipboardList class="h-8 w-8 " />
-        <CardTitle class="text-2xl font-bold ">TaskFlow Admin</CardTitle>
+        <img
+          src="@/assets/logo.png"
+          alt="TaskFlow Logo"
+          class="w-10 h-10 object-contain rounded-md"
+        />
+        <div>
+          <h1 class="text-xl font-semibold text-gray-900">TaskFlow</h1>
+          <p class="text-sm text-gray-500">Admin Dashboard</p>
+        </div>
       </div>
+
+      <!-- Right: Logout Button -->
       <Button 
         @click="logout" 
         variant="ghost" 
-        class="cursor-pointer hover:bg-blue-100 gap-2"
+        class="hover:bg-blue-50 gap-2 px-4 py-2 text-gray-700 font-medium"
       >
-        <LogOut class="h-4 w-4 " />
+        <LogOut class="h-4 w-4" />
         Logout
       </Button>
-    </CardHeader>
-  </Card>
+    </div>
+  </header>
+
+  <!-- Spacer to offset fixed header -->
+  <div class="h-[72px]"></div>
 </template>
 
 <script setup>

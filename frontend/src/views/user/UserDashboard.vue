@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4">
     <div class="max-w-7xl mx-auto">
       <UserHeader />
-      <UserTaskOverview />
+      <UserTaskOverview  class="w-full" />
     </div>
   </div>
 </template>

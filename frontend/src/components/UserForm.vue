@@ -57,7 +57,10 @@
       <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
       <div class="flex justify-end space-x-2">
         <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-        <Button type="submit">{{ isEdit ? 'Update User' : 'Create User' }}</Button>
+        <Button type="submit" :disabled="isLoading">
+          <span v-if="isLoading">Saving...</span>
+          <span v-else>{{ isEdit ? 'Update User' : 'Create User' }}</span>
+        </Button>
       </div>
     </form>
   </div>
@@ -76,6 +79,7 @@ const props = defineProps({
 const emit = defineEmits(['userCreated', 'userUpdated', 'close']);
 
 const isEdit = ref(false);
+const isLoading = ref(false);
 const userForm = ref({
   name: '',
   email: '',
@@ -103,6 +107,7 @@ watch(() => props.user, (newUser) => {
 
 const handleSubmit = async () => {
   error.value = null;
+  isLoading.value = true;
   try {
     if (isEdit.value) {
       const payload = { name: userForm.value.name, email: userForm.value.email, role: userForm.value.role };
@@ -124,6 +129,8 @@ const handleSubmit = async () => {
         error.value += ` ${key}: ${err.response.data.errors[key].join(', ')}`;
       }
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

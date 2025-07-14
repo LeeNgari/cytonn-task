@@ -5,7 +5,7 @@
       <CardDescription>View and manage your assigned tasks</CardDescription>
     </CardHeader>
 
-    <CardContent>
+    <CardContent class="w-full">
       <!-- Loading -->
       <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <CardSkeleton v-for="i in 3" :key="`skeleton-${i}`" type="task" />
@@ -26,56 +26,71 @@
       </div>
 
       <!-- Task Cards -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card
+      <div v-else class="">
+        <div
           v-for="task in tasks"
           :key="task.id"
-          @click="toggleExpanded(task.id)"
-          class="hover:shadow-md transition-shadow cursor-pointer"
+          class="p-4 border rounded-lg hover:shadow-md mb-4 transition-shadow cursor-pointer"
           :class="{
             'border-l-4 border-yellow-500': task.status === 'pending',
             'border-l-4 border-blue-500': task.status === 'in_progress',
             'border-l-4 border-green-500': task.status === 'completed',
           }"
+          @click="toggleExpanded(task.id)"
         >
-          <CardHeader>
-            <div class="flex justify-between items-start">
-              <CardTitle class="text-base">{{ task.title }}</CardTitle>
-              <Badge :variant="statusVariant(task.status)" class="capitalize">
-                {{ formatStatus(task.status) }}
-              </Badge>
+          <!-- Title -->
+          <h3 class="text-base font-medium mb-3"><strong class="text-lg">Title :</strong>{{ task.title }}</h3>
+          
+          <!-- User and Status -->
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center space-x-2">
+              <div class="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center">
+                <User v-if="task.assigned_user" class="h-4 w-4 text-gray-500" />
+              </div>
+              <span class="text-sm text-gray-600">
+                Assigned by: <strong>Admin</strong>
+              </span>
             </div>
-            <CardDescription class="text-xs">Task ID: {{ task.id }}</CardDescription>
-          </CardHeader>
-
-          <CardContent class="space-y-2 text-sm">
-            <div class="flex items-center gap-2">
-              <Calendar class="h-4 w-4 text-gray-500" />
-              <span :class="{
-                'text-red-600 font-medium': isOverdue(task.deadline),
-                'text-green-600 font-medium': !isOverdue(task.deadline) && isDueSoon(task.deadline)
-              }">
+            <div class="flex space-x-2">
+              <span class="text-xs px-2 py-1 rounded-md capitalize"
+                :class="{
+                  'bg-yellow-100 text-yellow-800': task.status === 'pending',
+                  'bg-blue-100 text-blue-800': task.status === 'in_progress',
+                  'bg-green-100 text-green-800': task.status === 'completed',
+                }">
+                {{ formatStatus(task.status) }}
+              </span>
+              <span class="text-xs px-2 py-1 rounded-md"
+                :class="{
+                  'bg-red-100 text-red-800': isOverdue(task.deadline),
+                  'bg-green-100 text-green-800': !isOverdue(task.deadline) && isDueSoon(task.deadline),
+                  'bg-gray-100 text-gray-800': !isOverdue(task.deadline) && !isDueSoon(task.deadline)
+                }">
                 {{ formatDate(task.deadline) }}
               </span>
             </div>
+          </div>
 
-            <Transition name="fade">
-              <div v-if="expandedTaskId === task.id" class="mt-2 space-y-1">
-                <p class="text-gray-700"><strong>Description:</strong> {{ task.description }}</p>
-                <p class="text-gray-700"><strong>Assigned To:</strong> {{ task.assigned_user?.name || 'Unassigned' }}</p>
-                <p class="text-gray-500 text-xs">Created: {{ formatDate(task.created_at) }}</p>
-                <p class="text-gray-500 text-xs">Updated: {{ formatDate(task.updated_at) }}</p>
-              </div>
-            </Transition>
-          </CardContent>
+          <!-- Expanded Content -->
+          <Transition name="fade">
+            <div v-if="expandedTaskId === task.id" class="mt-4 space-y-2 text-sm">
+              <p class="text-gray-700"><strong>Description:</strong> {{ task.description }}</p>
+              <p class="text-gray-500 text-xs">Created: {{ formatDate(task.created_at) }}</p>
+              <p class="text-gray-500 text-xs">Updated: {{ formatDate(task.updated_at) }}</p>
+               <p class="text-gray-500 text-xs">
+               Assigned to:  {{ task.assigned_user?.name || 'Unassigned' }}
+               </p>
+            </div>
+          </Transition>
 
-          <CardFooter class="flex justify-between items-center">
+          <!-- Actions -->
+          <div class="flex justify-end space-x-2 pt-3">
             <Select 
               v-model="task.status"
               @update:modelValue="updateTaskStatus(task)"
             >
-              <SelectTrigger class="h-8">
-                <SelectValue placeholder="Select status" />
+              <SelectTrigger class="h-5 w-34">
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -100,11 +115,11 @@
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <Button variant="ghost" size="sm" class="cursor-pointer text-gray-600 hover:text-primary">
+            <Button variant="outline" size="sm" class="h-8 w-8 p-0">
               <Eye class="h-4 w-4" />
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
     </CardContent>
   </Card>
