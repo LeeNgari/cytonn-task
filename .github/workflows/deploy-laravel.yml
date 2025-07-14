@@ -72,9 +72,7 @@ jobs:
           php artisan route:cache
 
       - name: 🗂 Zip Laravel App (contents of backend/)
-        run: |
-          cd backend
-          zip -r ../laravel.zip .
+        run: zip -r ../laravel.zip .
 
       - name: 🔐 Login to Azure
         uses: azure/login@v1
