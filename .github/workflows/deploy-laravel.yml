@@ -12,20 +12,20 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: 🧰 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: mbstring, bcmath, xml, ctype, curl, fileinfo, json, tokenizer, pdo, openssl
           tools: composer
 
-      - name: Install Dependencies
+      - name: 📦 Install Dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Create .env file
+      - name: 🛠 Create .env file
         run: |
           cat <<EOF > .env
           APP_NAME=TaskFlow
@@ -58,21 +58,31 @@ jobs:
           VITE_APP_NAME="TaskFlow"
           EOF
 
-      - name: Generate App Key
+      - name: 🔑 Generate App Key
         run: php artisan key:generate --force
 
-      - name: Cache Laravel config
+      - name: ⚙️ Cache Laravel config
         run: |
           php artisan config:clear
           php artisan config:cache
 
-      - name: Login to Azure
+      - name: 🚦 Clear & Cache Routes
+        run: |
+          php artisan route:clear
+          php artisan route:cache
+
+      - name: 🗂 Zip Laravel App (contents of backend/)
+        run: |
+          cd backend
+          zip -r ../laravel.zip .
+
+      - name: 🔐 Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Web App
+      - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: taskflow
-          package: backend
+          package: laravel.zip
