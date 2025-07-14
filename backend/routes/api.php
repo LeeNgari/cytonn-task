@@ -26,3 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/tasks', App\Http\Controllers\TaskController::class);
     Route::patch('/tasks/{task}/status', [App\Http\Controllers\TaskController::class, 'updateStatus']);
 });
+
+Route::options('{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
