@@ -1,0 +1,45 @@
+name: Deploy Laravel to Azure
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, xml, ctype, curl, fileinfo, json, tokenizer, pdo, openssl
+          tools: composer
+
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Generate Key
+        run: php artisan key:generate
+
+      - name: Cache config
+        run: |
+          php artisan config:clear
+          php artisan config:cache
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: taskflow-etf4aghpckgeeycg
+          package: .
