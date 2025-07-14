@@ -61,18 +61,29 @@ jobs:
       - name: 🔑 Generate App Key
         run: php artisan key:generate --force
 
-      - name: ⚙️ Cache Laravel config
+      - name: ⚙️ Cache Laravel config & routes
         run: |
           php artisan config:clear
           php artisan config:cache
-
-      - name: 🚦 Clear & Cache Routes
-        run: |
           php artisan route:clear
           php artisan route:cache
 
-      - name: 🗂 Zip Laravel App (contents of backend/)
-        run: zip -r ../laravel.zip .
+      - name: 🧹 Prepare clean build directory
+        run: |
+          mkdir ../laravel_build
+          rsync -av \
+            --exclude=.git \
+            --exclude=node_modules \
+            --exclude=tests \
+            --exclude=storage/*.key \
+            --exclude=.env.example \
+            --exclude=*.zip \
+            . ../laravel_build/
+
+      - name: 📦 Zip clean Laravel app
+        run: |
+          cd ../laravel_build
+          zip -r ../laravel.zip .
 
       - name: 🔐 Login to Azure
         uses: azure/login@v1
