@@ -1,4 +1,4 @@
-# Task FLow - Task Management System 
+# Task Flow - Task Management System 
 
 This is a Task Management System built with Vue js, Laravel and PostgreSQL as the database. 
 
