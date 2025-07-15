@@ -4,7 +4,7 @@
       
       <!-- Large Logo -->
       <img
-        src="@/assets/logo.png"
+        src="https://res.cloudinary.com/du74ofrgc/image/upload/v1752508081/Screenshot_from_2025-07-14_15-16-08_qlidps.png"
         alt="TaskFlow Logo"
         class="w-90 h-50 md:w-52 md:h-52 rounded-xl shadow-xl object-contain transition-transform hover:scale-105"
       />

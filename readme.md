@@ -1,6 +1,6 @@
-# Task Management System 
+# Task FLow - Task Management System 
 
-This is a Task Management System API backend built with Vue js, Laravel and PostgreSQL as the database. 
+This is a Task Management System built with Vue js, Laravel and PostgreSQL as the database. 
 
 ## Table of Contents
 
@@ -22,10 +22,11 @@ This system provides functionalities for user management (admin only), authentic
 
 Follow these steps to set up and run the project locally:
 
-1.  **Clone the repository:**
+### Backend Setup
+
+1.  **Navigate to the backend directory:**
     ```bash
-    git clone <repository-url>
-    cd cytonntask-api
+    cd backend
     ```
 
 2.  **Install Composer dependencies:**
@@ -34,42 +35,18 @@ Follow these steps to set up and run the project locally:
     ```
 
 3.  **Configure Environment Variables:**
-    Create a `.env` file by copying `.env.example`:
-    ```bash
-    cp .env.example .env
-    ```
-    Update the `.env` file with your Supabase  database credentials and Gmail SMTP details.
+    Create a `.env` `:
+    
+    Update the `.env` file with your  database credentials and Gmail SMTP details.
 
     ```dotenv
-    APP_NAME="Laravel Task Management "
-    APP_ENV=local
-    APP_KEY=
-    APP_DEBUG=true
-    APP_URL=http://localhost:8000
-
-    LOG_CHANNEL=stack
-    LOG_DEPRECATIONS_CHANNEL=null
-    LOG_LEVEL=debug
-
+    
     DB_CONNECTION=pgsql
     DB_HOST=
     DB_PORT=
     DB_DATABASE=
     DB_USERNAME=
     DB_PASSWORD=
-
-    BROADCAST_DRIVER=log
-    CACHE_DRIVER=file
-    FILESYSTEM_DISK=local
-    QUEUE_CONNECTION=sync
-    SESSION_DRIVER=file
-    SESSION_LIFETIME=120
-
-    MEMCACHED_HOST=127.0.0.1
-
-    REDIS_HOST=127.0.0.1
-    REDIS_PASSWORD=null
-    REDIS_PORT=6379
 
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.gmail.com
@@ -79,21 +56,6 @@ Follow these steps to set up and run the project locally:
     MAIL_ENCRYPTION=tls
     MAIL_FROM_ADDRESS=
     MAIL_FROM_NAME="${APP_NAME}"
-
-    AWS_ACCESS_KEY_ID=
-    AWS_SECRET_ACCESS_KEY=
-    AWS_DEFAULT_REGION=us-east-1
-    AWS_BUCKET=
-    AWS_USE_PATH_STYLE_ENDPOINT=false
-
-    PUSHER_APP_ID=
-    PUSHER_APP_KEY=
-    PUSHER_APP_SECRET=
-    PUSHER_APP_CLUSTER=mt1
-
-    VITE_APP_NAME="${APP_NAME}"
-    VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
-    VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
     ```
 
 4.  **Generate Application Key:**
@@ -115,6 +77,25 @@ Follow these steps to set up and run the project locally:
     php artisan serve
     ```
     The API will be accessible at `http://localhost:8000`.
+
+### Frontend Setup
+
+1.  **Navigate to the frontend directory:**
+    ```bash
+    cd frontend
+    ```
+
+2.  **Install NPM dependencies:**
+    ```bash
+    npm i
+    ```
+
+3.  **Start the Frontend Development Server:**
+    ```bash
+    npm run dev
+    ```
+    The frontend will be accessible at `http://localhost:5173`.
+
 
 ## API Endpoints Documentation
 
@@ -606,4 +587,3 @@ Returned if a user tries to update the status of a task not assigned to them.
 **Success Response (204 No Content):**
 
 An empty response body.
-
